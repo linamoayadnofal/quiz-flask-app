@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Quiz</h1>
+        
+<form action="/result" method="post">
+            {% for question in questions %}
+            {% set q_index = loop.index0 %}
+            
+ <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        Question {{ loop.index }}: {{ question.question | safe }}
+                    </h5>
+                    
+                    {% for option in question.options %}
+  <div class="form-check">
+                        <input class="form-check-input" 
+                               type="radio" 
+                               name="question{{ q_index }}" 
+                               value="{{ option | safe }}"
+                               id="q{{ q_index }}_opt{{ loop.index0 }}">
+                        
+ <label class="form-check-label" 
+                               for="q{{ q_index }}_opt{{ loop.index0 }}">
+                            {{ option | safe }}
+                        </label>
+                    </div>
+                    {% endfor %}
+                    
+ <!-- الـ hidden input داخل كل card -->
+ <input type="hidden" 
+         name="correct{{ q_index }}" 
+         value="{{ question.answer | safe }}">
+                </div>
+            </div>
+            
+            {% endfor %}
+            
+ <button type="submit" class="btn btn-primary btn-lg btn-block">
+                Submit Quiz
+            </button>
+        </form>
+    </div>
+</body>
+</html>
